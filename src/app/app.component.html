@@ -1,7 +1,7 @@
 
 <div class="container-fluid">
   <h1>Bootstrap Enrollment form</h1>
-  <form #userForm="ngForm">
+  <form #userForm="ngForm" (ngSubmit)="onSubmit()" novalidate>
 
     {{ userForm.value | json}}
     <hr />
@@ -44,14 +44,18 @@
     </div>
 
     <div class="form-group">
-      <select class="custom-select" class="form-control" name="topic" [ngModel]="userModel.topic">
-        <option selected>I am interested In</option>
+      <h4>Topic</h4>
+      <select (blur)="validateTopic(topic.value)" (change)="validateTopic(topic.value)" class="custom-select" #topic="ngModel" [class.is-invalid]="topicHasError && topic.touched" class="form-control" name="topic" [(ngModel)]="userModel.topic">
+        <option value="">I am interested In</option>
         <option *ngFor="let topic of topics">{{ topic}}</option>
       </select>
+      <small class="text-danger " [class.d-none]="!topicHasError || topic.untouched">
+        Please choose a topic
+      </small>
     </div>
 
     <div class="mb-2">
-      <h4>time Preference</h4>
+      <h4>Time Preference</h4>
       <div class="form-check">
         <input class="form-check-input" type="radio" name="timePreference" value="morning" [ngModel]="userModel.timePreference">
         <label class="form-check-label">morning (9AM - 12 PM)</label>
@@ -69,6 +73,6 @@
         </label>
       </div>
     </div>
-    <button class="btn btn-primary">Submit</button>
+    <button [disabled]="userForm.form.invalid" class="btn btn-primary">Submit</button>
   </form>
 </div>
