@@ -14,7 +14,7 @@ export class AppComponent {
 
   topicHasError = true;
 
-  constructor(private _enrollmentService:EnrollmentService);
+  constructor(private enrollmentService:EnrollmentService){};
 
   validateTopic(value: string){
     if(value == 'default'){
@@ -27,7 +27,7 @@ export class AppComponent {
   
 
   onSubmit(){
-    this._enrollmentService.enroll(this.userModel).subscribe(
+    this.enrollmentService.enroll(this.userModel).subscribe(
       data => console.log('Success!'),
       error => console.error('Error!', error)
     )
